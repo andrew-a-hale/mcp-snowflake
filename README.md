@@ -3,8 +3,26 @@
 ## Tools
 
 - Get Databases
-- Get Schemas in Database
+- Get Schemas (User/Snowflake) in Database
 - Get Table in Schema
+- Get Views in Database Schema
+- Get Procedure in Database Schema
+- Get Tasks in Database Schema
 - Execute DDL Statement
-- Get DDL for View
-- Get DDL for Procedure
+- Execute Select Statement
+- Execute Select Statement Large
+
+## TODO
+
+- ROLES
+  - Need to query the hierarchy
+- COSTING
+- Testing
+
+## Goal
+
+- Store DDL Locally
+- Refactoring
+- Optimisation
+- Diagnosis
+  - Orphaned Objects
