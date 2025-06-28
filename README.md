@@ -2,7 +2,7 @@
 
 ## Tools
 
-- Get Databases
+- Get Databases -- Requires Snowflake Database Access
 - Get Schemas (User/Snowflake) in Database
 - Get Table in Schema
 - Get Views in Database Schema
@@ -12,10 +12,20 @@
 - Execute Select Statement
 - Execute Select Statement Large
 
+### May Require Elevated Access
+
+- Get Roles
+- Get Role Hierarchy
+- Get Role Grants
+- Get Users
+- Get User Roles
+- Get Tags
+- Check Object Usage via Query History
+
 ## TODO
 
-- ROLES
-  - Need to query the hierarchy
 - COSTING
-- Testing
-
+  - Cost by User
+  - Cost by Role?
+  - Cost by Warehouse
+  - Cost by Tag
