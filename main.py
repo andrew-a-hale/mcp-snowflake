@@ -13,12 +13,14 @@ mcp = FastMCP("snowflake")
 @mcp.tool()
 def get_databases() -> QueryResponse:
     """Get List of Snowflake Databases"""
+    # TODO: specify the columns
     return sf.execute_query("select * from snowflake.information_schema.databases")
 
 
 @mcp.tool()
 def get_snowflake_schemas(database: str) -> QueryResponse:
     """Get List of Snowflake defined Schemas in a Database"""
+    # TODO: specify the columns
     return sf.execute_query(
         f"select * from {database}.information_schema.schemata where created is null"
     )
@@ -27,6 +29,7 @@ def get_snowflake_schemas(database: str) -> QueryResponse:
 @mcp.tool()
 def get_user_defined_schemas(database: str) -> QueryResponse:
     """Get List of Snowflake User Defined Schemas in a Database"""
+    # TODO: specify the columns
     return sf.execute_query(
         f"select * from {database}.information_schema.schemata where created is not null"
     )
@@ -35,6 +38,7 @@ def get_user_defined_schemas(database: str) -> QueryResponse:
 @mcp.tool()
 def get_tables(database: str, db_schema: str) -> QueryResponse:
     """Get List of Snowflake Tables in a Database Schema"""
+    # TODO: specify the columns
     return sf.execute_query(
         f"""\
 select *
@@ -52,7 +56,7 @@ def execute_ddl_statement(ddl: str) -> QueryResponse:
 
 @mcp.tool()
 def get_views(database: str, db_schema: str) -> QueryResponse:
-    """Get DDL for a View in a Database"""
+    """Get DDL for a View in a Database Schema"""
     return sf.execute_query(
         f"""\
 select table_name, view_definition

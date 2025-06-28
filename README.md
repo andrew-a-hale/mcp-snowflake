@@ -19,10 +19,3 @@
 - COSTING
 - Testing
 
-## Goal
-
-- Store DDL Locally
-- Refactoring
-- Optimisation
-- Diagnosis
-  - Orphaned Objects
