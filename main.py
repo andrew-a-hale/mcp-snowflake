@@ -6,14 +6,14 @@ import datetime
 
 from mcp.server.fastmcp import FastMCP
 
-from utils.sf import QueryResponse, Snowflake
+from utils.sf import Response, Snowflake
 
 sf = Snowflake()
 mcp = FastMCP("snowflake")
 
 
 @mcp.tool()
-def get_databases() -> QueryResponse:
+def get_databases() -> Response:
     """Get List of Snowflake Databases"""
     return sf.execute_query(
         """\
@@ -29,7 +29,7 @@ from snowflake.information_schema.databases"""
 
 
 @mcp.tool()
-def get_snowflake_schemas(database: str) -> QueryResponse:
+def get_snowflake_schemas(database: str) -> Response:
     """Get List of Snowflake defined Schemas in a Snowflake Database"""
     return sf.execute_query(
         f"""\
@@ -47,7 +47,7 @@ where created is null"""
 
 
 @mcp.tool()
-def get_user_defined_schemas(database: str) -> QueryResponse:
+def get_user_defined_schemas(database: str) -> Response:
     """Get List of Snowflake User Defined Schemas in a Snowflake Database"""
     return sf.execute_query(
         f"""\
@@ -65,7 +65,7 @@ where created is not null"""
 
 
 @mcp.tool()
-def get_tables(database: str, db_schema: str) -> QueryResponse:
+def get_tables(database: str, db_schema: str) -> Response:
     """Get List of Snowflake Tables in a Snowflake Database Schema"""
     return sf.execute_query(
         f"""\
@@ -95,13 +95,13 @@ where table_schema = %s""",
 
 
 @mcp.tool()
-def execute_ddl_statement(ddl: str) -> QueryResponse:
+def execute_ddl_statement(ddl: str) -> Response:
     """Execute a DDL Statement to create objects in Snowflake"""
     return sf.execute_query(ddl)
 
 
 @mcp.tool()
-def get_views(database: str, db_schema: str) -> QueryResponse:
+def get_views(database: str, db_schema: str) -> Response:
     """Get DDL for a View in a Snowflake Database Schema"""
     return sf.execute_query(
         f"""\
@@ -113,7 +113,7 @@ where table_schema = %s""",
 
 
 @mcp.tool()
-def get_procedures(database: str, db_schema: str) -> QueryResponse:
+def get_procedures(database: str, db_schema: str) -> Response:
     """Get DDL for a Stored Procedure in a Database"""
     return sf.execute_query(
         f"""\
@@ -125,7 +125,7 @@ where procedure_schema = %s""",
 
 
 @mcp.tool()
-def execute_select_statement(query: str) -> QueryResponse:
+def execute_select_statement(query: str) -> Response:
     """Execute a select statement to read data in Snowflake upto 10 rows.
 
     <warning>
@@ -135,7 +135,7 @@ def execute_select_statement(query: str) -> QueryResponse:
 
 
 @mcp.tool()
-def execute_select_statement_large(query: str, file: str) -> QueryResponse:
+def execute_select_statement_large(query: str, file: str) -> Response:
     """Execute a select statement to read data in Snowflake for more than 10 rows.
 
     <warning>
@@ -145,19 +145,19 @@ def execute_select_statement_large(query: str, file: str) -> QueryResponse:
 
 
 @mcp.tool()
-def get_tasks() -> QueryResponse:
+def get_tasks() -> Response:
     """Get a list and details for Snowflake Tasks. A Snowflake Task is a database trigger."""
     return sf.execute_query("show task")
 
 
 @mcp.tool()
-def get_roles() -> QueryResponse:
+def get_roles() -> Response:
     """Get a list of Snowflake Roles."""
     return sf.execute_query("show roles")
 
 
 @mcp.tool()
-def get_roles_hierarchy(role: str = "accountadmin") -> QueryResponse:
+def get_roles_hierarchy(role: str = "accountadmin") -> Response:
     """Get Role Hierarchy for a Snowflake Role."""
     sql = f"""\
 with cte as (
@@ -194,7 +194,7 @@ from cte"""
 
 
 @mcp.tool()
-def get_roles_grants(role: str = "accountadmin") -> QueryResponse:
+def get_roles_grants(role: str = "accountadmin") -> Response:
     """Get Grants (aka Privilege) for a Snowflake Role."""
     sql = f"""\
 with cte as (
@@ -247,13 +247,13 @@ where gr.deleted_on is null"""
 
 
 @mcp.tool()
-def get_users() -> QueryResponse:
+def get_users() -> Response:
     """Get a list of Users in Snowflake."""
     return sf.execute_query("show users")
 
 
 @mcp.tool()
-def get_user_roles(user: str) -> QueryResponse:
+def get_user_roles(user: str) -> Response:
     """Get a list of roles for a Snowflake User."""
     return sf.execute_query(f"show grants to user {user}")
 
@@ -263,7 +263,7 @@ def check_usage_for_object(
     obj: str,
     start_dt: datetime.date = datetime.date(2000, 1, 1),
     end_dt: datetime.date = datetime.date(9999, 12, 31),
-) -> QueryResponse:
+) -> Response:
     """Check the usage of a Snowflake Table, View, Function, Procedure by
     scanning the Snowflake Query History for a Time Period by default the time
     period is all time."""

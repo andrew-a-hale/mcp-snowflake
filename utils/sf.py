@@ -8,7 +8,7 @@ from snowflake import connector
 from snowflake.connector import cursor
 from snowflake.core import exceptions
 
-type QueryResponse = dict[str, Any]
+type Response = dict[str, Any]
 
 
 class NotFoundError(Exception):
@@ -63,7 +63,7 @@ class Snowflake:
         params: Optional[tuple[str]] = None,
         outfile: Optional[str] = None,
         cur: Optional[cursor.SnowflakeCursor] = None,
-    ) -> QueryResponse:
+    ) -> Response:
         if cur is None:
             cur = self.cur()
 
@@ -114,7 +114,7 @@ class Snowflake:
         self,
         queries: list[str],
         return_n: int = -1,
-    ) -> QueryResponse:
+    ) -> Response:
         cur = self.cur()
 
         res = []
