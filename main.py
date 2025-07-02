@@ -34,7 +34,7 @@ def get_snowflake_schemas(database: str) -> Response:
     return sf.execute_query(
         f"""\
 select
-    {database} as database,
+    '{database}' as database,
     schema_name as name,
     schema_owner as owner,
     comment,
@@ -52,7 +52,7 @@ def get_user_defined_schemas(database: str) -> Response:
     return sf.execute_query(
         f"""\
 select
-    {database} as database,
+    '{database}' as database,
     schema_name as name,
     schema_owner as owner,
     comment,
@@ -70,8 +70,8 @@ def get_tables(database: str, db_schema: str) -> Response:
     return sf.execute_query(
         f"""\
 select
-    {database} as database,
-    {db_schema} as schema,
+    '{database}' as database,
+    '{db_schema}' as schema,
     table_name as name,
     table_owner as owner,
     table_type,

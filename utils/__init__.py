@@ -1,2 +1,1 @@
-from .sf import NotFoundError, QueryResponse, Snowflake
-
+from .sf import NotFoundError, Response, Snowflake
