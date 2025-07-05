@@ -1,9 +1,10 @@
+import datetime
 import json
 import os
 from decimal import Decimal
 from typing import Any, Optional
-import datetime
 
+import tomllib
 from snowflake import connector
 from snowflake.connector import cursor
 from snowflake.core import exceptions
@@ -26,26 +27,18 @@ class SnowflakeJsonEncoder(json.JSONEncoder):
 
 
 class Snowflake:
-    def __init__(self):
-        # TODO: handle other connection methods
-        account = os.getenv("SNOWFLAKE_ACCOUNT")
-        assert account, "SNOWFLAKE_ACCOUNT environment variable must be set"
+    def __init__(self, connection_name: str):
+        with open(".snowflake/connections.toml", mode="rb") as toml:
+            connections = tomllib.load(toml)
+            conn_params = connections.get(connection_name)
+            if conn_params is None:
+                raise ValueError(
+                    f"No '{connection_name}' connection found. Available connections: "
+                    + str(list(connections.keys()))
+                )
+            assert isinstance(conn_params, dict)
 
-        user = os.getenv("SNOWFLAKE_USER")
-        assert user, "SNOWFLAKE_USER environment variable must be set"
-
-        role = os.getenv("SNOWFLAKE_ROLE")
-        assert role, "SNOWFLAKE_ROLE environment variable must be set"
-
-        key_file = os.getenv("SNOWFLAKE_PRIVATE_KEY_FILE")
-        assert key_file, "SNOWFLAKE_PRIVATE_KEY_FILE environment variable must be set"
-
-        self.conn = connector.connect(
-            account=account,
-            user=user,
-            role=role,
-            private_key_file=key_file,
-        )
+        self.conn = connector.connect(**conn_params)
 
     def cur(self):
         return self.conn.cursor()

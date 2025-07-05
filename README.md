@@ -24,6 +24,7 @@
 
 ## TODO
 
+- Update Tool field definitions
 - COSTING
   - Cost by User
   - Cost by Role?
