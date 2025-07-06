@@ -9,6 +9,8 @@ from snowflake import connector
 from snowflake.connector import cursor
 from snowflake.core import exceptions
 
+ROOT = os.path.dirname(os.path.dirname(__file__))
+
 type Response = dict[str, Any]
 
 
@@ -28,7 +30,7 @@ class SnowflakeJsonEncoder(json.JSONEncoder):
 
 class Snowflake:
     def __init__(self, connection_name: str):
-        with open(".snowflake/connections.toml", mode="rb") as toml:
+        with open(os.path.join(ROOT, ".snowflake/connections.toml"), mode="rb") as toml:
             connections = tomllib.load(toml)
             conn_params = connections.get(connection_name)
             if conn_params is None:

@@ -8,7 +8,7 @@ from mcp.server.fastmcp import FastMCP
 
 from utils.sf import Response, Snowflake
 
-sf = Snowflake("mq")
+sf = Snowflake("default")
 mcp = FastMCP("snowflake")
 
 
